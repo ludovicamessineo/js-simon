@@ -28,6 +28,7 @@ document.getElementById("numbers").innerHTML = `Memorizza questi numeri: ${rando
 const timerNumbers = document.getElementById("timer-numbers");
 let count = parseInt(timerNumbers.textContent);
 
+// TIMING FUNCTION INTERVAL
 const timer = setInterval(function() {
     count--;
     timerNumbers.innerHTML = count;
@@ -40,9 +41,44 @@ const timer = setInterval(function() {
     } 
 }, 1000);
 
+// -> Finiti i 30 secondi creo 5 prompt in cui l'utente deve inserire i numeri che si ricorda
+// TIMING FUNCTION TIMEOUT
+const memoNumbers = [];
+
+setTimeout(() => {
+    for (let i = 0; i < 5; i++) {
+        const userNumber = parseInt(prompt("Inserisci un numero che ricordi"));
+        memoNumbers.push(userNumber);
+    }
+    console.log(memoNumbers);
+
+    const guessedNumbers = checkCommonItems(randomNumbers, memoNumbers);
+    console.log(guessedNumbers);
+
+    showResult(guessedNumbers);
+}, 6000);
+
 
 
 // FUNCTIONS
+function checkCommonItems (originalArray, arrayToCheck) {
+    const resultArray = [];
+    for (let i = 0; i < arrayToCheck.length; i++) {
+        // prelevo un elemento
+        const currentElement = arrayToCheck[i];
+        // se l'elemento prelevato è incluso nell
+        if (originalArray.includes(currentElement)) {
+            resultArray.push(currentElement);
+        }
+    }
+    return resultArray;
+}
+
+function showResult(guessedNumbersArray) {
+    const message = `Ne hai indovinati ${guessedNumbersArray.length}: ${guessedNumbersArray}`;
+    document.getElementById("result").innerHTML = message
+}
+
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * 100) + 1;
   }
